@@ -3,6 +3,4 @@ tags/
 .DS_Store
 .vs 
 build 
-build.??? 
-Conf
 !./MinnowTools/*.c

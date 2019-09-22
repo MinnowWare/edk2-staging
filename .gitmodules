@@ -1,0 +1,9 @@
+[submodule "CdePkg"]
+	path = CdePkg
+	url = https://github.com/MinnowWare/CdePkg.git
+[submodule "CdeSrcPkg"]
+	path = CdeSrcPkg
+	url = https://github.com/MinnowWare/CdeSrcPkg.git
+[submodule "CdeValidationPkg"]
+	path = CdeValidationPkg
+	url = https://github.com/MinnowWare/CdeValidationPkg.git

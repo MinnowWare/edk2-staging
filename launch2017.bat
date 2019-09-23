@@ -1,5 +1,5 @@
 @echo off
-set path=%path%;"c:\NASM";%~dp0openssl-1.0.2r-x64_86-win64;%~dp0MinnowTools
+set path=%path%;"c:\NASM";%~dp0openssl-1.0.2r-x64_86-win64;%~dp0MinnowToolsC:\Program Files (x86)\DediProg\SF100;
 set PYTHON_HOME=C:\Python27
 if exist conf rd /s /q Conf
 
@@ -49,10 +49,10 @@ echo ### enter "rd /s /q build" to clean previous build                         
 echo ### enter "start DBG" to start the UEFI BIOS EMULATION                          ###
 echo ###################################################################################
 if not exist CdePkg\readme.md (
-    echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    echo !!!       SUBMODULES MISSING !!! SUBMODULES MISSING !!! SUBMODULES MISSING      !!!
-    echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    @echo Please run "git submodule update --init --recursive
+    echo ###################################################################################
+    echo ###       SUBMODULES MISSING ### SUBMODULES MISSING ### SUBMODULES MISSING      ###
+    echo ###################################################################################
+    @echo Please run "git submodule update --init --recursive"
 )
 %COMSPEC% /k echo Welcome, to the jungle...
 :EOF

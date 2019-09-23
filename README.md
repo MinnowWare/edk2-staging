@@ -1,4 +1,4 @@
-# edk2-UDK2018 / [CdePkg](https://github.com/MinnowWare/CdePkg#cdepkg)
+# edk2-staging / [CdePkg](https://github.com/MinnowWare/CdePkg#cdepkg)
 * [Introduction](https://github.com/MinnowWare/edk2-vUDK2018#introduction)
 * [Goal](https://github.com/MinnowWare/edk2-vUDK2018#goal)
 * [HowTo/install/build](https://github.com/MinnowWare/edk2-vUDK2018#howtoinstallbuildedit)
@@ -16,14 +16,20 @@
 https://minnowboard.org/
 
 ## Introduction
+**This edk2-staging branch introduces the [**_CdePkg_**](https://github.com/MinnowWare/CdePkg#cdepkg) and
+the [**_CdeValidationPkg_**](https://github.com/MinnowWare/CdeValidationPkg#cdevalidationpkg) to the
+UEFI/Tianocore open source community.**
+
+edk2-staging(branch CdePkg) is the Git-*Subproject* in the [UDK2018-MinnowBoard](https://github.com/MinnowWare/UDK2018-MinnowBoard) project to build the MinnowBoard UEFI BIOS,
+but can also be used stand alone in Emulation Mode (Nt32Pkg) (NOTE: In emulation mode timing calulation assumes to run a 1GHz platform).
+
+
 The MinnowBoard familiy is an *open source* Personal Computer hardware originally created by a company called
 *ADI Engineering*, that belongs now to [Silicom](https://www.silicom-usa.com/)
 
 Intel provides [binary modules](https://firmware.intel.com/projects/minnowboard-max) and maintains the [build environment](https://github.com/tianocore/edk2-platforms/blob/master/Platform/Intel/Vlv2TbltDevicePkg/Readme.md)
 to get the MinnowBoard running with the open source [UEFI BIOS Tianocore\EDK2](https://github.com/tianocore/edk2.git)
 
-edk2-staging(branch CdePkg) is the Git-*Subproject* in the UDK2018-MinnowBoard project to build the MinnowBoard UEFI BIOS,
-but can also be used stand alone in Emulation Mode (Nt32Pkg).
 
 ## Goal
 1. 	**The main aspect is, to introduce the [**_CdePkg_**](https://github.com/MinnowWare/CdePkg#cdepkg) and

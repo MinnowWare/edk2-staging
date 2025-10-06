@@ -25,3 +25,6 @@
 [submodule "blogs/2022-01-16/Visual-ACPICA-for-UEFI-Shell"]
 	path = blogs/2022-01-16/Visual-ACPICA-for-UEFI-Shell
 	url = https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell.git
+[submodule "blogs/2025-10-05/Visual-ACPICA-for-UEFI-ShellPORTABLE"]
+	path = blogs/2025-10-05/Visual-ACPICA-for-UEFI-ShellPORTABLE
+	url = https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-ShellPORTABLE.git

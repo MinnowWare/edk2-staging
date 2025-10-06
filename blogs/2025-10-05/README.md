@@ -1,6 +1,7 @@
 ### CdePkgBlog 2025-10-05
 # Refresh of the ACPICA port to UEFI
 ![LOGO](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/LOGOWin64.PNG)
+
 ### Table of content
 * [Abstract](README.md#abstract)
 * [Introduction](README.md#Introduction)

@@ -84,47 +84,34 @@ Each original file and its overridden version remain visible in Solution Explore
 Only the Microsoft-specific project files have been  transferred and modified to the 
 new "*VisualStudio2026 solution*" **AcpiComponents.slnx**. 
 
-From the about 420 orignal .C and .H files that belong to the project, only 3 files need to be modified:
+From the about 420 original .C and .H files that belong to the project, only 3 files need to be modified:
 
 ![Overall](pictures/overall.png)
 
 All source code modifications have been  encapsulated in the ```VISUAL_ACPICA_FOR_UEFI``` and ```VISUAL_ACPICA_FOR_WIN64```
 build switch.
 
-Additionally a couple of Windows functions need to be rewritten for UEFI usage.
-The library is called [Win324UEFI.lib](README.md#win324uefi)
+Additionally a couple of Windows functions need to be rewritten for UEFI usage.<br>
+The library is called [**Visual-LIBWIN32-for-UEFI**](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI?tab=readme-ov-file#visual-libwin32-for-uefi).
 
-### [aslmain.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/acpica-win-20210930-source/compiler/aslmain.c)
-```aslmain.c``` is the master file for the *AslCompiler*. To build successfully
-it needs ```EFI_SYSTEM_TABLE``` and ```EFI_HANDLE``` to initialize global variables.
-```EFI_SYSTEM_TABLE``` and ```EFI_HANDLE``` have been passed via ```argv[-1]``` and ```argv[-2]```.
-
-
-### [evglock.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/acpica-win-20210930-source/components/events/evglock.c)
-```evglock.c``` provides the Global Lock support. The functions ```AcpiAcquireGlobalLock()```
-and ```AcpiReleaseGlobalLock()``` need to be rewritten from inline assembly language to
+### [evglock.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-ShellPORTABLE/blob/main/overrides/acpica/source/components/events/evglock.c)
+**```evglock.c```** provides the Global Lock support. The functions **```AcpiAcquireGlobalLock()```**
+and **```AcpiReleaseGlobalLock()```** need to be rewritten from inline assembly language to
 Microsoft C intrinsics, because for 64Bit code generator inline-assembler is not supported anymore.
 
 ![evglock.c](pictures/evglock.c.png)
 
 ### [acwin.h](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/acpica-win-20210930-source/include/platform/acwin.h)
-For the same reasons the macros in ```acwin.h```have to be adjusted.
+For the same reasons the macros in **```acwin.h```** have to be adjusted.
 
 ![acwin.h](pictures/acwin.h.png)
 
-### [oswindir.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/acpica-win-20210930-source/os_specific/service_layers/oswindir.c)
-The datatype ```long``` has in 64Bit/32Bit 
-* Microsoft Compiler: same size
-* GNU Compiler different size
-
-So ```FileHandle```would be 32Bit in size when building for 64Bit — thats wrong.
-
-![oswindir.c](https://github.com/tianocore/edk2-staging/blob/CdePkg/blogs/2022-01-16/pictures/oswindir.c.png)
-
 ### [oswintbl.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/acpica-win-20210930-source/os_specific/service_layers/oswintbl.c)
+![acwin.h](pictures/oswintbl.c.png)
+![acwin.h](pictures/oswintbl.c.png)
 
-* [```EnumSystemFirmwareTables4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/EnumSystemFirmwareTables.c)
-* [```GetSystemFirmwareTable4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/GetSystemFirmwareTable.c)
+* [```EnumSystemFirmwareTables()```](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI/blob/main/EnumSystemFirmwareTables.c)
+* [```GetSystemFirmwareTable4UEFI()```](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI/blob/main/GetSystemFirmwareTable.c)
 
 with slightly different parameters instead its original Windows counter parts.
 
@@ -133,45 +120,6 @@ Microsoft function definitions in the header files.
 
 ![oswintbl.c](https://github.com/tianocore/edk2-staging/blob/CdePkg/blogs/2022-01-16/pictures/oswintbl.c.png)
 
-### [oswinxf.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/acpica-win-20210930-source/os_specific/service_layers/oswinxf.c)
-* [```QueryPerformanceCounter4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/QueryPerformanceCounter.c)
-* [```QueryPerformanceFrequency4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/QueryPerformanceFrequency.c)
-* [```GetTickCount644UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/GetTickCount64.c)
-* [```Sleep4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/Sleep.c)
-* [```IsBadReadPtr4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/IsBadReadPtr.c)
-* [```IsBadWritePtr4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/IsBadWritePtr.c)
-
-Reimplementation of the original Windows functions.
-
-To add ```4UEFI```-suffix was a workaround to avoid a conflict with calling conventions of the original
-Microsoft function definitions in the header files.
-
-![oswinxf.c](https://github.com/tianocore/edk2-staging/blob/CdePkg/blogs/2022-01-16/pictures/oswinxf.c.png)
-
-# [Win324UEFI](https://github.com/KilianKegel/Win324UEFI)
-**Win324UEFI** is a library that supplies *Win32 API* functions for UEFI Shell usage.
-The library is updated with new functions on demand only. It is not planned to implement 
-a full subset of a particular *Win32 API interface* completely.
-
-Currently the library provides the functions listed below:
-* [```EnumSystemFirmwareTables4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/EnumSystemFirmwareTables.c): https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-enumsystemfirmwaretables
-* [```GetSystemFirmwareTable4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/GetSystemFirmwareTable.c): https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemfirmwaretable
-* [```QueryPerformanceCounter4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/QueryPerformanceCounter.c): https://docs.microsoft.com/en-us/windows/win32/api/profileapi/nf-profileapi-queryperformancecounter
-* [```QueryPerformanceFrequency4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/QueryPerformanceFrequency.c): https://docs.microsoft.com/en-us/windows/win32/api/profileapi/nf-profileapi-queryperformancefrequency
-* [```GetTickCount644UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/GetTickCount64.c): https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount64
-* [```Sleep4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/Sleep.c): https://docs.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleep
-* [```IsBadReadPtr4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/IsBadReadPtr.c): https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-isbadreadptr
-* [```IsBadWritePtr4UEFI()```](https://github.com/KilianKegel/Win324UEFI/blob/main/IsBadWritePtr.c): https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-isbadwriteptr
-
-# [toro-C-Library](https://github.com/KilianKegel/toro-C-Library)
-The original **toro-C-Library** source code is included in the project.
-
-This is for informational purpose only.
-
-Currently **toro-C-Library** has these functions implemented:<br>
-https://github.com/KilianKegel/toro-C-Library#implementation-status
-
-The library can also be used for UEFI POST drivers and to build executables for Windows.
 
 # Starting Visual Studio 2022
 ## Setup the buildenvironment

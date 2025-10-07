@@ -110,6 +110,7 @@ For the same reasons the macros in **```acwin.h```** have to be adjusted.
 ![acwin.h](pictures/oswintbl.c.png)
 ![acwin.h](pictures/oswintbl.c.png)
 
+
 * [```EnumSystemFirmwareTables()```](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI/blob/main/EnumSystemFirmwareTables.c)
 * [```GetSystemFirmwareTable4UEFI()```](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI/blob/main/GetSystemFirmwareTable.c)
 

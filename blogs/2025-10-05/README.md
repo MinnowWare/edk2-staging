@@ -72,7 +72,7 @@ because there are different data models (**Windows LLP64** vs. **Linux LP64**) f
 
 
 ## Modified project sourcecode
-### Modifying files of the ***acpica*** subprojects
+### Modifying files of the [***ACPICA***](Visual-ACPICA-for-UEFI-ShellPORTABLE/acpica) subprojects
 Since the original ACPICA sourcecode is integrated into this project as a git submodule, it can't be modified directly.
 
 The override mechanism used here just duplicates the original file into the project folder.<br>

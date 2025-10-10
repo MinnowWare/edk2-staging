@@ -9,13 +9,9 @@
 * [ACPICA](README.md#acpica--acpi-component-architecture)
     * [Original project sourcecode](README.md#original-project-sourcecode)
     * [Modified project sourcecode](README.md#modified-project-sourcecode)
-        * [```aslmain.c```](README.md#aslmainc)
-        * [```apmain.c```](README.md#apmainc)
         * [```evglock.c```](README.md#evglockc)
         * [```acwin.h```](README.md#acwinh)
-        * [```oswindir.c```](README.md#oswindirc)
         * [```oswintbl.c```](README.md#oswintblc)
-        * [```oswinxf.c```](README.md#oswinxfc)
 * [Win324UEFI](README.md#win324uefi)
 * [toro-C-Library](README.md#toro-c-library)
 * [Starting Visual Studio 2022](README.md#starting-visual-studio-2022)
@@ -64,8 +60,7 @@ This port is based on the version https://github.com/acpica/acpica/tree/aa98db3b
 The x86-Windows-version is only available for an old Visual Studio version (2017)
 and regrettably only for x86-32 instruction set.
 
-The shift to x86-64 instruction set produces some warnings during compilation process
-that I left open.
+Switching to the x86-64 instruction set generates a minor number of compilation warning.
 
 A datatype **```long```** can't be used on sourcecode running on Windows(32Bit and 64Bit) and Linux(32Bit and 64Bit) compilers,
 because there are different data models (**Windows LLP64** vs. **Linux LP64**) for that datatype.
@@ -75,51 +70,51 @@ because there are different data models (**Windows LLP64** vs. **Linux LP64**) f
 ### Modifying files of the [***ACPICA***](https://github.com/acpica/acpica) subprojects
 Since the original ACPICA sourcecode is integrated into this project as a git submodule, it can't be modified directly.
 
-The override mechanism used here just duplicates the original file into the project folder.<br>
+The override mechanism used here just duplicates the original file into the [***override folder***](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-ShellPORTABLE/tree/main/overrides).<br>
 The original file is disabled in the build process and the modified file is used instead.<br>
-Each original file and its overridden version remain visible in Solution Explorer to mark the override.<br>
+Each original file and its overridden version remain visible in **Solution Explorer** to mark the override.<br>
 ![override](pictures/overridemech.png)
 
 
 Only the Microsoft-specific project files have been  transferred and modified to the 
-new "*VisualStudio2026 solution*" **AcpiComponents.slnx**. 
+new **VisualStudio2026 solution** **AcpiComponents.slnx**. 
 
-From the about 420 original .C and .H files that belong to the project, only 3 files need to be modified:
+From the about 420 original .C and .H files that belong to the project, <INS>**only 3 files need to be modified**</INS>:
 
 ![Overall](pictures/overall.png)
 
-All source code modifications have been  encapsulated in the ```VISUAL_ACPICA_FOR_UEFI``` and ```VISUAL_ACPICA_FOR_WIN64```
+All source code modifications have been  encapsulated in the **```VISUAL_ACPICA_FOR_UEFI```** and **```VISUAL_ACPICA_FOR_WIN64```**
 build switch.
 
 Additionally a couple of Windows functions need to be rewritten for UEFI usage.<br>
 The library is called [**Visual-LIBWIN32-for-UEFI**](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI?tab=readme-ov-file#visual-libwin32-for-uefi).
 
 ### [evglock.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-ShellPORTABLE/blob/main/overrides/acpica/source/components/events/evglock.c)
-**```evglock.c```** provides the Global Lock support. The functions **```AcpiAcquireGlobalLock()```**
-and **```AcpiReleaseGlobalLock()```** need to be rewritten from inline assembly language to
-Microsoft C intrinsics, because for 64Bit code generator inline-assembler is not supported anymore.
+**```evglock.c```** provides the **Global Lock** support. The functions **```AcpiAcquireGlobalLock()```**
+and **```AcpiReleaseGlobalLock()```** need to be rewritten from **inline assembly** language to
+**Microsoft C intrinsics**, because for 64Bit code generator inline-assembler is not supported anymore.
 
 ![evglock.c](pictures/evglock.c.png)
 
 ### [acwin.h](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/acpica-win-20210930-source/include/platform/acwin.h)
-For the same reasons the macros in **```acwin.h```** have to be adjusted.
+ The macros in **```acwin.h```** must be adjusted accordingly:
 
 ![acwin.h](pictures/acwin.h.png)
 
 ### [oswintbl.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/blob/main/acpica-win-20210930-source/os_specific/service_layers/oswintbl.c)
-![acwin.h](pictures/oswintbl.c.png)
-![acwin.h](pictures/oswintbl.c.png)
+[**```GetSystemFirmwareTable4UEFI()```**](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI/blob/main/GetSystemFirmwareTable.c#L70)
+is a UEFI-adjusted reimplementation of the WIN32API function [**```GetSystemFirmwareTable()```**](https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemfirmwaretable) function and modified for UEFI usage. 
+Since Windows UserMode applications generally don't have physical access to the ACPI or SMBIOS tables, the function
+[**```GetSystemFirmwareTable()```**](https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemfirmwaretable) doesn't
+return the physical address of the tables.
+[**```GetSystemFirmwareTable4UEFI()```**](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI/blob/main/GetSystemFirmwareTable.c#L70) 
+remedis that situation by extending the function parameter list by the physical address and the table SSDT instance.
 
 
-* [```EnumSystemFirmwareTables()```](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI/blob/main/EnumSystemFirmwareTables.c)
-* [```GetSystemFirmwareTable4UEFI()```](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI/blob/main/GetSystemFirmwareTable.c)
 
-with slightly different parameters instead its original Windows counter parts.
+![oswintbl.c](pictures/oswintbl.c.png)
 
-To add ```4UEFI```-suffix was a workaround to avoid a conflict with calling conventions of the original
-Microsoft function definitions in the header files.
 
-![oswintbl.c](https://github.com/tianocore/edk2-staging/blob/CdePkg/blogs/2022-01-16/pictures/oswintbl.c.png)
 
 
 # Starting Visual Studio 2022

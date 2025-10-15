@@ -32,7 +32,7 @@ the [**Visual-LIBWIN32-for-UEFI**](https://github.com/KilianKegel/Visual-LIBWIN3
 and the [**ACPICA** sourcecode](https://github.com/acpica/acpica).
 
 ## Introduction
-["**ABOUT:** The ACPI Component Architecture (ACPICA) project provides an operating system (OS)-independent reference implementation of the Advanced Configuration and Power Interface Specification (ACPI)."](https://github.com/acpica/acpica)
+["**About:** The ACPI Component Architecture (ACPICA) project provides an operating system (OS)-independent reference implementation of the Advanced Configuration and Power Interface Specification (ACPI)."](https://github.com/acpica/acpica)
 (The sentence **"It can be easily adapted to execute under any host OS."** was included in an earlier publication.)
 
 Intel provides the ACPICA Windows Binary Tools for free [**download**](https://www.intel.com/content/www/us/en/download/774881/acpi-component-architecture-downloads-windows-binary-tools.html) in 32Bit x86 instruction set only.
@@ -79,14 +79,14 @@ Each original file and its overridden version remain visible in **Solution Explo
 Only the Microsoft-specific project files have been  transferred and modified to the 
 new **VisualStudio2026 solution** **AcpiComponents.slnx**. 
 
-From the about 420 original .C and .H files that belong to the project, <INS>**only 3 files need to be modified**</INS>:
+Out of about 420 original .C and .H files in the project, <ins>**only 3 files need to be modified**</ins>:
 
 ![Overall](pictures/overall.png)
 
 All source code modifications have been  encapsulated in the **```VISUAL_ACPICA_FOR_UEFI```** and **```VISUAL_ACPICA_FOR_WIN64```**
 build switch.
 
-Additionally a couple of Windows functions need to be rewritten for UEFI usage.<br>
+Additionally, a couple of Windows functions need to be ported to UEFI.<br>
 The library is called [**Visual-LIBWIN32-for-UEFI**](https://github.com/KilianKegel/Visual-LIBWIN32-for-UEFI?tab=readme-ov-file#visual-libwin32-for-uefi).
 
 ### [evglock.c](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-ShellPORTABLE/blob/main/overrides/acpica/source/components/events/evglock.c)
@@ -117,11 +117,12 @@ remedis that situation by extending the function parameter list by the physical 
 
 
 
-# Starting Visual Studio 2022
-## Setup the buildenvironment
-1. install FLEX and BISON that are required for the *AslCompiler*:<br>
-   https://acpica.org/downloads/windows-source 
-2. [install Visual Studio 2022](https://github.com/KilianKegel/HowTo-setup-an-UEFI-Development-PC#2-install-visual-studio-2022)
+## Installing Visual Studio 2026
+Just follow the [link](https://github.com/KilianKegel/Howto-setup-a-UEFI-Development-PC?tab=readme-ov-file#install-visual-studio).
+## Starting the project
+Its a ***portable project***. Additional tools (Flex, Bison) are installed automatically during the first start.
+
+
 
 ## Build the solution in Visual Studio
 Once the [Visual-ACPICA-for-UEFI-Shell](https://github.com/KilianKegel/Visual-ACPICA-for-UEFI-Shell/tree/dc74325f55b02253165fb64e08d64271c99ddfcf)
